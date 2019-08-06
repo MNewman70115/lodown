@@ -59,17 +59,17 @@ module.exports.typeOf = typeOf;
 
 /**
  * first: if an array and number are entered as arguments, it returns new array 
- * containing number of elements from beginning of array in a new array
+ * containing number of elements from beginning of array in a new array. it
+ * returns an empty array if the array argument at function call isn't an array
+ * or if the number argument at function call is less than 0. it returns the 
+ * value at the zero index of the array argument at function call if there is no
+ * number argument at function call.
  * 
  * @param {Any Array} array : the array from which the function tries to return 
  * the first number of values 
  * @param {Any Number} number : the number of elements from beginning of array 
  * to copy into a new array 
  *
- * @return []: a empty array if the array argument at function call isn't an 
- * array or if the number argument at function call is less than 0
- * @return array[0]: returns the value at the zero index of the array argument 
- * at function call if there is no number argument at function call
  * @return result: the array created by function to house the first number of 
  * elements from the array argument at function call
  */
@@ -93,17 +93,17 @@ module.exports.first = first;
 
 /**
  * last: if an array and number are entered as arguments, it returns new array 
- * containing number of elements from end of array in a new array
+ * containing number of elements from end of array in a new array. it returns an
+ * empty array if the array argument at function call isn't an array or if the
+ * number argument at function call is less than 0. it returns the array 
+ * argument at function call if the number argument at function call is greater 
+ * than the length of the array argument.
  * 
  * @param {Any Array} array : the array from which the function tries to return 
  * the last number of values 
  * @param {Any Number} number : the number of elements from end of array to copy
  * into a new array 
  *
- * @return []: a empty array if the array argument at function call isn't an 
- * array or if the number argument at function call is less than 0
- * @return array: returns the array argument at function call if the number 
- * argument at function call is greater than the length of the array argument
  * @return result: the array created by function to house the last number of 
  * elements from the array argument at function call
  */
@@ -137,7 +137,6 @@ module.exports.last = last;
  *
  * @return {Index Number} number: the first index that that value at it matches 
  * the value at function call
- * @return -1: returns -1 if there are no matches between the array & value
  */
 
 function indexOf(array,value) {
@@ -160,8 +159,6 @@ module.exports.indexOf = indexOf;
  *
  * @return {boolean} true: if the value at function call is found in the array 
  * at function call, returns true
- * @return {boolean} false: if the value at function call isn't found in the 
- * array at function call, returns false
  */
 
 function contains(array,value) {
@@ -174,6 +171,7 @@ module.exports.contains = contains;
  * 
  * @param {Any Array} array : the array whose values are copied to a new array 
  * if they are not already in it
+ * 
  * @return {New Array} result: an array that contains all of the unique values 
  * in the array argument at function call
  */
@@ -240,8 +238,6 @@ module.exports.filter = filter;
  */
 
 function partition(array, func) {
-    //console.log(array);
-    //console.log(func);
     const result = [];
     result.push(filter(array,func), reject(array,func));
     return result;
@@ -290,7 +286,7 @@ module.exports.pluck = pluck;
 
 /**
  * every: returns true if every iterative function call is true or every value 
- * in array is truthy or false if any function call or value is false
+ * in array is truthy or false if any function call or value is false/falsy
  * 
  * @param {Any Array or Object}  collection: the array whose values at index or 
  * the object whose values at key are entered into a function
@@ -298,13 +294,8 @@ module.exports.pluck = pluck;
  * the array or object above
  *
  * @return {boolean} true: returns true if func returns true for every element 
- * in the array or object 
- * @return {boolean} false: returns false if func returns false for any element 
- * in the array or object 
- * @return {boolean} true: if there is no func parameter at call, returns true 
- * if every elemnt in array or object is truthy
- * @return {boolean} false: if there is no func parameter at call, returns false
- * if any elemnt in array or object is falsy
+ * in the array or object or if no func arg at call, returns true if every 
+ * element in array or object is truthy
  */
 
 function every(collection, func) {
@@ -329,22 +320,17 @@ function every(collection, func) {
 module.exports.every = every;
 
 /**
- * some: returns true if every iterative function call is true or every value in
- * array is truthy or false if any function call or value is false
+ * some: returns false if every iterative function call is false or every value in
+ * array is falsy or true if any function call or value is true/truthy
  * 
  * @param {Any Array or Object}  collection: the array whose values at index or 
  * the object whose values at key are entered into a function
  * @param {Any Function} func: the function that is run using the values from 
  * the array or object above
  *
- * @return {boolean} true: returns true if func returns true for any element in 
- * the array or object 
  * @return {boolean} false: returns false if func returns false for every 
- * element in the array or object 
- * @return {boolean} true: if there is no func parameter at call, returns true 
- * if any elemnt in array or object is truthy
- * @return {boolean} false: if there is no func parameter at call, returns false
- * if every elemnt in array or object is falsy
+ * element in the array or object or if there is no func parameter at call,
+ * returns false if every element in array or object is falsy
  */
 
 function some(collection, func) {
@@ -369,8 +355,8 @@ function some(collection, func) {
 module.exports.some = some;
 
 /**
- * reduce: a function that uses the previous returned value until array is
- * exhausted and then returns final returned value
+ * reduce: a function that uses the previous returned value until all the elements from array have been run through the function
+ * and then returns one final returned value 
  * 
  * @param {Any Array}  array: the array whose values at index are entered into a
  * function
